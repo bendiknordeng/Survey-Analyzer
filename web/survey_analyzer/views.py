@@ -21,3 +21,8 @@ def define_structure(request):
 
 def analyze(request):
     return render(request, 'analyze.html')
+    
+def jacobtest(request):
+    dialog = filedialog
+    return render(request, 'jacobtest.html')
+
