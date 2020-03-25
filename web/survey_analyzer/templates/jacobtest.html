@@ -1,8 +1,6 @@
 {% extends 'base.html' %}
 {% block body %}
 <div class='container'>
-<div style="background-image: url('img_girl.jpg');">
-<div id="div" class="dotted" hidden></div>
 <style> 
 div.dotted {
     border: 1px dotted #000;
@@ -10,19 +8,32 @@ div.dotted {
 }
 </style>
 <script>
-var divs = [ document.getElementById('div') ], x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+	
+var divs = [];
+
+var newdiv;
+function resetdiv() {
+	newdiv = document.createElement("div");
+	newdiv.id = "div" + divs.length;
+	newdiv.className = "dotted";
+	newdiv.hidden = 1;
+}
+resetdiv();
+var x1 = 0, y1 = 0, x2 = 0, y2 = 0;
+//document.getElementById("myButton").addEventListener("click", heloo);
 function reCalc() { //This will restyle the div
     var x3 = Math.min(x1,x2); //Smaller X
     var x4 = Math.max(x1,x2); //Larger X
     var y3 = Math.min(y1,y2); //Smaller Y
     var y4 = Math.max(y1,y2); //Larger Y
-    divs[divs.length-1].style.left = x3 + 'px';
-    divs[divs.length-1].style.top = y3 + 'px';
-    divs[divs.length-1].style.width = x4 - x3 + 'px';
-    divs[divs.length-1].style.height = y4 - y3 + 'px';
+    newdiv.style.left = x3 + 'px';
+    newdiv.style.top = y3 + 'px';
+    newdiv.style.width = x4 - x3 + 'px';
+    newdiv.style.height = y4 - y3 + 'px';
 }
 onmousedown = function(e) {
-    divs[divs.length-1].hidden = 0; //Unhide the div
+    newdiv.hidden = 0;
+    document.body.appendChild(newdiv);
     x1 = e.clientX; //Set the initial X
     y1 = e.clientY; //Set the initial Y
     reCalc();
@@ -33,12 +44,16 @@ onmousemove = function(e) {
     reCalc();
 };
 onmouseup = function(e) {
-	newdiv = document.createElement("div");
-    newdiv.id = "div" + divs.length;
-    newdiv.className = "dotted";
-    newdiv.hidden = 1;
     divs.push(newdiv);
+	resetdiv();
     document.body.appendChild(newdiv);
+};
+onkeydown = function(e) {
+	if(e.keyCode == 13) { //Enter
+		//return divs to django??????
+	} else if (e.keyCode == 8 && divs.length > 0) { //backspace divs is nonempty
+		document.body.removeChild(divs.pop());
+	}
 };
 </script>
 </div>
