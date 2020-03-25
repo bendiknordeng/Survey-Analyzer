@@ -9,7 +9,6 @@ urlpatterns = [
     path('', views.home, name='home'),
     path('define_structure', views.define_structure, name='define_structure'),
     path('analyze', views.analyze, name='analyze'),
-    path('jacobtest', views.jacobtest, name='jacobtest')
 ]
 
 if settings.DEBUG:

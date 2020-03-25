@@ -20,5 +20,4 @@ urlpatterns = [
     path('', include('survey_analyzer.urls')),
     path('define_structure', include('survey_analyzer.urls')),
     path('analyze', include('survey_analyzer.urls')),
-    path('jacobtest', include('survey_analyzer.urls'))
 ]
