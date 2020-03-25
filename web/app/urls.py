@@ -18,5 +18,6 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', include('survey_analyzer.urls')),
+    path('define_structure', include('survey_analyzer.urls')),
     path('analyze', include('survey_analyzer.urls')),
 ]
