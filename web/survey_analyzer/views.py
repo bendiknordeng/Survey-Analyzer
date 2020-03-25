@@ -13,3 +13,8 @@ def analyze(request):
     survey = Survey(request.POST)
     img = Converter(survey.file)
     return render(request, 'analyze.html')
+    
+def jacobtest(request):
+    dialog = filedialog
+    return render(request, 'jacobtest.html')
+

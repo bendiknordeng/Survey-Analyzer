@@ -19,4 +19,5 @@ from django.urls import include, path
 urlpatterns = [
     path('', include('survey_analyzer.urls')),
     path('analyze', include('survey_analyzer.urls')),
+    path('jacobtest', include('survey_analyzer.urls'))
 ]
