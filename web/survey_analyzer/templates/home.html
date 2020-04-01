@@ -1,16 +1,19 @@
 {% extends 'base.html' %}
 {% block body %}
+{% load static %}
 <div class='container'>
   <div class="jumbotron" style="margin-top: 100px">
     <h2>Welcome to Survey Data Extractor and Analyzer</h2>
     <p>A simple tool for extracting and analyzing data from handwritten surveys.</p>
-    <form action="/define_structure" method="post" enctype="multipart/form-data">{% csrf_token %}
-      <div class="custom-file" style="margin-bottom: 10px">
-        <input type="file" class="custom-file-input" name="survey">
-        <label class="custom-file-label">Choose file</label>
+    <form action="/" class="dropzone" id="drag-drop" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="fallback">
+        <input type="file" name="file">
       </div>
-      <button type="submit" class="btn btn-lg btn-primary">Start</button>
     </form>
+    <a href="/define_structure">
+      <button style="margin-top: 10px" id="start" class="btn btn-lg btn-primary">Start</button>
+    </a>
   </div>
 </div>
 {% endblock %}
