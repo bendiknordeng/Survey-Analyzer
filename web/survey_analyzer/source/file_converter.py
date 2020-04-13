@@ -6,7 +6,7 @@ import numpy as np
 import cv2
 
 class Converter:
-    index = 0 # static variable for indexing images
+    global_index = 0  # static variable for unique filepaths
 
     def __init__(self, filename):
         self.__files = []
@@ -14,7 +14,9 @@ class Converter:
             if filename.endswith('.jpg') or filename.endswith('.png'):
                 self.__files.append(np.array(cv2.imread(filename, cv2.COLOR_BGR2GRAY)))
             elif filename.endswith('.pdf'):
-                self.__files.append(np.array(convert_from_path(filename, grayscale=True)[0]))
+                images = convert_from_path(filename, grayscale=True)
+                for img in images:
+                    self.__files.append(np.array(img))
             elif filename.endswith('.zip'):
                 archive = zipfile.ZipFile(filename)
                 for file in archive.namelist():
@@ -23,10 +25,14 @@ class Converter:
                         image = np.asarray(bytearray(f.read()), dtype="uint8")
                         self.__files.append(np.array(cv2.imdecode(image, cv2.COLOR_BGR2GRAY)))
                     elif file.endswith('.pdf'):
-                        self.__files.append(np.array(convert_from_bytes(f.read(), grayscale=True)[0]))
+                        images = convert_from_bytes(f.read(), grayscale=True)
+                        for img in images:
+                            self.__files.append(np.array(img))
             elif filename.endswith('/'):
                 for file in os.listdir(filename):
-                    self.__files.append(np.array(convert_from_path(filename+file, grayscale=True)[0]))
+                    images = convert_from_path(filename+file, grayscale=True)
+                    for img in images:
+                        self.__files.append(np.array(img))
         except:
             print("Error:", sys.exc_info()[0])
             raise
@@ -34,11 +40,11 @@ class Converter:
     def save(self, location):
         paths = []
         # iterates over all pages and saves them as a new jpg
-        for img in self.__files:
-            path = location+"survey_"+str(Converter.index)+'.jpg'
+        for i, img in enumerate(self.__files, start=Converter.global_index):
+            path = location+"survey_"+str(i)+'.jpg'
             cv2.imwrite(path, img)
             paths.append(path)
-            Converter.index += 1
+            Converter.global_index += 1
         return paths
 
     def get(self):
